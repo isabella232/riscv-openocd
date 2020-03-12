@@ -761,6 +761,10 @@ int riscv_add_breakpoint(struct target *target, struct breakpoint *breakpoint)
 			return ERROR_FAIL;
 		}
 
+		/** [OS] before write the SW BP, to memory we need to do fence.i to clear the cache **/
+		riscv_set_register_on_hart(target, riscv_current_hartid(target), GDB_REGNO_DMST, 0x1);
+		LOG_INFO("OpenOCD setting MDST=%x to 0x1", CSR_DMST);
+
 		uint8_t buff[4];
 		buf_set_u32(buff, 0, breakpoint->length * CHAR_BIT, breakpoint->length == 4 ? ebreak() : ebreak_c());
 		int const retval = target_write_memory(target, breakpoint->address, 2, breakpoint->length / 2, buff);
@@ -836,6 +840,10 @@ int riscv_remove_breakpoint(struct target *target,
 		struct breakpoint *breakpoint)
 {
 	if (breakpoint->type == BKPT_SOFT) {
+		/** [OS] before clear the SW BP, to memory we need to do fence.i to clear the cache **/
+		riscv_set_register_on_hart(target, riscv_current_hartid(target), GDB_REGNO_DMST, 0x1);
+		LOG_INFO("OpenOCD setting MDST=%x to 0x1", CSR_DMST);
+
 		if (target_write_memory(target, breakpoint->address, 2, breakpoint->length / 2,
 					breakpoint->orig_instr) != ERROR_OK) {
 			LOG_ERROR("Failed to restore instruction for %d-byte breakpoint at "
@@ -3369,6 +3377,8 @@ const char *gdb_regno_name(enum gdb_regno regno)
 			return "v30";
 		case GDB_REGNO_V31:
 			return "v31";
+		case GDB_REGNO_DMST:
+			return "dmst";
 		default:
 			if (regno <= GDB_REGNO_XPR31)
 				sprintf(buf, "x%d", regno - GDB_REGNO_ZERO);
@@ -3992,6 +4002,7 @@ int riscv_init_registers(struct target *target)
 				case CSR_MHPMCOUNTER29H:
 				case CSR_MHPMCOUNTER30H:
 				case CSR_MHPMCOUNTER31H:
+				case CSR_DMST:
 					r->exist = riscv_xlen(target) == 32;
 					break;
 

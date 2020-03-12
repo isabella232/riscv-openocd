@@ -93,6 +93,8 @@ enum gdb_regno {
 	GDB_REGNO_MEPC = CSR_MEPC + GDB_REGNO_CSR0,
 	GDB_REGNO_MCAUSE = CSR_MCAUSE + GDB_REGNO_CSR0,
 	GDB_REGNO_SATP = CSR_SATP + GDB_REGNO_CSR0,
+	/*[OS]: SweRV dmst reg*/
+	GDB_REGNO_DMST =  CSR_DMST + GDB_REGNO_CSR0,
 	GDB_REGNO_CSR4095 = GDB_REGNO_CSR0 + 4095,
 	GDB_REGNO_PRIV = 4161,
 	/* It's still undecided what register numbers GDB will actually use for
