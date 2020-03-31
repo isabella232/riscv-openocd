@@ -1758,8 +1758,30 @@
 #define CSR_MHPMCOUNTER29H 0xb9d
 #define CSR_MHPMCOUNTER30H 0xb9e
 #define CSR_MHPMCOUNTER31H 0xb9f
-/*OS: adding dmst */
-#define CSR_DMST           0x7c4
+/*OS: adding SweRV CSRs */
+#define CSR_MRAC           0x7C0          /* Region access control  */
+#define CSR_MCPC           0x7C2          /* Core pause control  */
+#define CSR_DMST           0x7C4          /* Memory synchronization trigger (debug mode only)  */
+#define CSR_MPMC           0x7C6          /* Power management control  */
+#define CSR_DICAWICS       0x7C8          /* I-cache array/way/index selection (debug mode only)  */
+#define CSR_DICAD0         0x7C9          /* I-cache array data 0 (debug mode only)  */
+#define CSR_DICAD1         0x7CA          /* I-cache array data 1 (debug mode only)  */
+#define CSR_DICAGO         0x7CB          /* I-cache array go (debug mode only)  */
+#define CSR_MGPMC          0x7D0          /* Group performance monitor control  */
+#define CSR_MICECT         0x7F0          /* I-cache error counter/threshold */
+#define CSR_MICCMECT       0x7F1          /* ICCM correctable error counter/threshold  */
+#define CSR_MDCCMECT       0x7F2          /* DCCM correctable error counter/threshold  */
+#define CSR_MCGC           0x7F8          /* Clock gating control  */
+#define CSR_MFDC           0x7F9          /* Feature disable control  */
+#define CSR_MDEAU          0xBC0          /* D-Bus error address unlock  */
+#define CSR_MDSEAC         0xFC0          /* D-bus first error address capture  */
+#define CSR_MEIPT          0xBC9          /* External interrupts priority threshold  */
+#define CSR_MEIVT          0xBC8          /* External interrupts vector table  */
+#define CSR_MEIHAP         0xFC8          /* External interrupts handler address pointer  */
+#define CSR_MEICPCT        0xBCA          /* External interrupts claim ID / priority level capture trigger  */
+#define CSR_MEICIDPL       0xBCB          /* External interrupts claim IDs priority level  */
+#define CSR_MEICURPL       0xBCC          /* External interrupts current priority level  */
+ 
 
 #define CAUSE_MISALIGNED_FETCH 0x0
 #define CAUSE_FETCH_ACCESS 0x1
@@ -2673,7 +2695,29 @@ DECLARE_CSR(mhpmcounter28h, CSR_MHPMCOUNTER28H)
 DECLARE_CSR(mhpmcounter29h, CSR_MHPMCOUNTER29H)
 DECLARE_CSR(mhpmcounter30h, CSR_MHPMCOUNTER30H)
 DECLARE_CSR(mhpmcounter31h, CSR_MHPMCOUNTER31H)
+DECLARE_CSR(mrac, CSR_MRAC)
+DECLARE_CSR(mcpc, CSR_MCPC)
 DECLARE_CSR(dmst, CSR_DMST)
+DECLARE_CSR(mpmc, CSR_MPMC)
+DECLARE_CSR(dicawics, CSR_DICAWICS)
+DECLARE_CSR(docad0, CSR_DICAD0)
+DECLARE_CSR(dicad1, CSR_DICAD1)
+DECLARE_CSR(dicago, CSR_DICAGO)
+DECLARE_CSR(mgpmc, CSR_MGPMC  )
+DECLARE_CSR(micect, CSR_MICECT)
+DECLARE_CSR(miccmect, CSR_MICCMECT)
+DECLARE_CSR(mdccmect, CSR_MDCCMECT)
+DECLARE_CSR(mcgc, CSR_MCGC    )
+DECLARE_CSR(mfdc, CSR_MFDC    )
+DECLARE_CSR(mdeau, CSR_MDEAU  )
+DECLARE_CSR(mdseac, CSR_MDSEAC)
+DECLARE_CSR(meipt, CSR_MEIPT  )
+DECLARE_CSR(meivt, CSR_MEIVT  )
+DECLARE_CSR(meihap, CSR_MEIHAP)
+DECLARE_CSR(meicpct, CSR_MEICPCT)
+DECLARE_CSR(meicidpl, CSR_MEICIDPL)
+DECLARE_CSR(meicurpl, CSR_MEICURPL)
+
 #endif
 #ifdef DECLARE_CAUSE
 DECLARE_CAUSE("misaligned fetch", CAUSE_MISALIGNED_FETCH)
